@@ -1,4 +1,6 @@
 import java.util.Arrays;
+import java.util.IntSummaryStatistics;
+import java.util.stream.Collectors;
 
 public class OneDayTwo {
 
@@ -20,7 +22,7 @@ public class OneDayTwo {
                 "514\t218\t209\t185\t197\t137\t393\t555\t588\t569\t710\t537\t48\t309\t519\t138\n" +
                 "1567\t3246\t4194\t151\t3112\t903\t1575\t134\t150\t4184\t3718\t4077\t180\t4307\t4097\t1705\n";
 
-        int result = Arrays.stream(input.split("\n")).map(s -> checkSumRow(s)).mapToInt(i -> i).sum();
+        int result = Arrays.stream(input.split("\n")).map(s -> otherCheckSumRow(s)).mapToInt(i -> i).sum();
         System.out.println(result);
     }
 
@@ -34,14 +36,10 @@ public class OneDayTwo {
         }
         return max-min;
     }
-//    static int otherCheckSumRow(String inputRow) {
-//        int min = Integer.MAX_VALUE;;
-//        int max = 0;
-//
-//        Arrays.stream(inputRow.split("\t")).map(s -> Integer.parseInt(s)).forEach(i -> {
-//            min = Math.min(i, min);
-//            max = Math.max(i,max);
-//        });
-//        return max-min;
-//    }
+    static int otherCheckSumRow(String inputRow) {
+        IntSummaryStatistics stats = Arrays.stream(inputRow.split("\t"))
+                .map(Integer::parseInt)
+                .collect(Collectors.summarizingInt(Integer::intValue));
+        return stats.getMax()-stats.getMin();
+    }
 }
