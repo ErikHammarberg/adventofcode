@@ -24,22 +24,40 @@ public class OneDayTwo {
 
         int result = Arrays.stream(input.split("\n")).map(s -> otherCheckSumRow(s)).mapToInt(i -> i).sum();
         System.out.println(result);
+
+        int secondResult = Arrays.stream(input.split("\n")).map(s -> secondCheckSumRow(s)).mapToInt(i -> i).sum();
+        System.out.println(secondResult);
     }
 
-    static int checkSumRow(String inputRow){
-        int min = Integer.MAX_VALUE;;
+    private static int secondCheckSumRow(String s) {
+        int[] ints = Arrays.stream(s.split("\t")).mapToInt(Integer::parseInt).sorted().toArray();
+        for (int outer = 0; outer < ints.length; outer++) {
+            for(int inner = ints.length -1; inner > outer; inner--) {
+                if (ints[inner] % ints[outer] == 0) {
+                    return ints[inner] / ints[outer];
+                }
+            }
+        }
+
+        return 0;
+    }
+
+    static int checkSumRow(String inputRow) {
+        int min = Integer.MAX_VALUE;
+        ;
         int max = 0;
-        for(String s : inputRow.split("\t")) {
+        for (String s : inputRow.split("\t")) {
             int num = Integer.parseInt(s);
             min = Math.min(num, min);
             max = Math.max(num, max);
         }
-        return max-min;
+        return max - min;
     }
+
     static int otherCheckSumRow(String inputRow) {
         IntSummaryStatistics stats = Arrays.stream(inputRow.split("\t"))
                 .map(Integer::parseInt)
                 .collect(Collectors.summarizingInt(Integer::intValue));
-        return stats.getMax()-stats.getMin();
+        return stats.getMax() - stats.getMin();
     }
 }
