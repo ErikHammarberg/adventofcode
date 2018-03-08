@@ -1,8 +1,13 @@
+import java.util.ArrayList;
+
 public class OneDayThree {
 
   public static void main(String[] args) {
 
     System.out.println(new OneDayThree().findShortPath(289326));
+    System.out.println(new OneDayThree().findShortPath(12));
+    System.out.println(new OneDayThree().findShortPath(23));
+    System.out.println(new OneDayThree().findShortPath(1024));
   }
 
   public int findShortPath(int input) {
@@ -70,24 +75,44 @@ public class OneDayThree {
     return -1;
   }
 
+  int dayTwo(int input) {
+    ArrayList<Integer> numbers = new ArrayList(input + 5);
+    Ring currentRing = Ring.findContainingRing(2);
+    numbers.add(1);
+
+    for(int i = 2 ; i <= input ; i++) {
+      if(currentRing.ringMaximum < i) {
+        currentRing = Ring.findContainingRing(i);
+
+        if(currentRing.innerMax+1 == i) {
+
+        }
+
+      }
+    }
+
+  }
+
 }
 
 class Ring {
   public int ringNumber;
   public int ringMaximum;
   public int innerMax;
+  public int edge;
 
-  Ring(int num, int max, int prevMax) {
+  Ring(int num, int max, int prevMax, int edge) {
     ringNumber = num;
     ringMaximum = max;
     innerMax = prevMax;
+    this.edge = edge;
   }
 
   static Ring findContainingRing(int input) {
-    int ringNum = 2;
-    int ringMax = 9;
+    int ringNum = 1;
+    int ringMax = 1;
     int innerMax = 0;
-    int edge = 3;
+    int edge = 1;
 
     while (ringMax < input) {
 //      ringNum++;
@@ -101,5 +126,14 @@ class Ring {
       edge = newEdge;
     }
     return new Ring(ringNum, ringMax, innerMax);
+  }
+
+  class SpiralRing {
+
+  }
+  class SprialRingEntity {
+    Ring containingRing;
+    int value;
+
   }
 }
